@@ -14,7 +14,11 @@ import type {
   CreateBookingPayload,
 } from '../types';
 
-const BASE = '/api';
+// In dev: Vite proxy forwards /api → http://localhost:4000
+// In prod: set VITE_API_URL=https://your-backend.onrender.com
+const BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}`
+  : '/api';
 
 async function request<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${url}`, {
